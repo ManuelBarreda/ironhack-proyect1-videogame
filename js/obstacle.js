@@ -23,11 +23,15 @@ class Obstacle {
     drawObs() {
         this.ctx.fillStyle = this.color
         this.ctx.fillRect(this.obsPos.x, this.obsPos.y, this.obsSize.w, this.obsSize.h)
-        this.move()
+        this.moveObs()
     }
 
     moveObs() {
         this.obsPos.x += this.obsVel.x
         this.obsPos.y += this.obsVel.y
+    }
+    
+    destroyObs() {
+        //Completar función destrucción obstaculo con colisión de balas
     }
 }
