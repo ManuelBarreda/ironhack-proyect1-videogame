@@ -29,7 +29,7 @@ const gameApp = {
         this.canvasTag = document.getElementById(id);
         this.ctx = this.canvasTag.getContext('2d');
         this.setDimensions();
-        this.background = new Background(this.ctx, this.canvasSize.w, this.canvasSize.h)    //constructor(ctx, bgWidth, bgHeight)
+        this.background = new Background (this.ctx, this.canvasSize.w, this.canvasSize.h)    //constructor(ctx, bgWidth, bgHeight)
         this.background.drawBg()
         this.score = document.getElementById('points')
     },
@@ -47,23 +47,27 @@ const gameApp = {
             this.clear()
             this.drawAll()
 
-            this.generateObstacle()
+            this.generateObstacle();
+            this.clearObstacles();
+
+            this.frames > 5000 ? this.frames = 0 : this.frames++
 
             this.isCollision() ? this.gameOver() : null     //REVISAR FUNCIONAMIENTO
 
-        if (this.isTarget()) {                                  //REVISAR VALIDEZ
+            if (this.isTarget()) {                                  //REVISAR VALIDEZ
                 this.obstacles.forEach(obs => obs.destroyObs())
                 this.score++
             }
 
-        }, this.FPS)    //ESTO NECESITO QUE ME LO EXPLIQUEN
+        }, 1000 / this.FPS)    //ESTO NECESITO QUE ME LO EXPLIQUEN
     },
 
     reset() {
+        this.background = new Background(this.ctx, this.canvasSize.w, this.canvasSize.h, "./img/dragon-ball-mountains-bg.png");
+        this.player = new Player(this.ctx, this.canvasSize.w, this.canvasSize.h, this.keys, this.score) //constructor(ctx, canvasWidth, canvasHeight, keys)
         this.obstacles = []
         this.bullets = []
         this.score = 0
-        this.player = new Player(this.ctx, this.canvasSize.w, this.canvasSize.h, this.keys, this.score) //constructor(ctx, canvasWidth, canvasHeight, keys)
     },
 
     drawAll() {
@@ -83,18 +87,20 @@ const gameApp = {
     },
 
     clearObstacles() {
-        //this.obstacles = this.obstacles.filter(obs => obs.obsPos.x)
+        this.obstacles = this.obstacles.filter(obs => obs.obsPos.x >= 0);
+        this.obstacles = this.obstacles.filter(obs => obs.obsPos.y >=0);
         //Si los obstáculos se quedan dentro de la pantalla los eliminamos con colisiones??
     },
 
     isCollision() {
         //  COLISIONES obstaculo + jugador = game over()
-        //return some(obs => {
-            //return ()
-            //this.player.posX + this.player.width >= obs.posX &&
-            //this.player.posY + this.player.height >= obs.posY &&
-            //this.player.posX <= obs.posX + obs.width
-        //})
+        return this.obstacles.some(obs => {
+            return (
+            this.player.posX + this.player.width >= obs.posX &&
+            this.player.posY + this.player.height >= obs.posY &&
+            this.player.posX <= obs.posX + obs.width
+            )
+        })
     },
 
     isTarget() {

@@ -27,8 +27,8 @@ class Obstacle {
     }
 
     moveObs() {
-        this.obsPos.x += this.obsVel.x
-        this.obsPos.y += this.obsVel.y
+        this.obsPos.x -= this.obsVel.x
+        this.obsPos.y -= this.obsVel.y
     }
     
     destroyObs() {

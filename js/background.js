@@ -1,5 +1,5 @@
 class Background {
-    constructor(ctx, bgWidth, bgHeight) {
+    constructor(ctx, bgWidth, bgHeight, imgSource) {
         this.ctx = ctx;
         this.bgSize = {
             w: bgWidth,
@@ -10,13 +10,13 @@ class Background {
             y: 0
         }
 
-        // this.image = new Image();
-        // this.image.src = "/img/dragon-ball-mountains-bg.png"
+        this.image = new Image();
+        this.image.src = imgSource
     }
     
     drawBg() {
-        this.ctx.fillStyle = 'blue'
-        this.ctx.fillRect(this.bgPos.x, this.bgPos.y, this.bgSize.w, this.bgSize.h)
-        //this.ctx.drawImage(this.image, this.bgPos.x, this.bgPos.y, this.bgSize.w, this.bgSize.h);     La src de la imagen me da error.
+        // this.ctx.fillStyle = 'blue'
+        // this.ctx.fillRect(this.bgPos.x, this.bgPos.y, this.bgSize.w, this.bgSize.h)
+        this.ctx.drawImage(this.image, this.bgPos.x, this.bgPos.y, this.bgSize.w, this.bgSize.h);    // La src de la imagen me da error.
     }
-}
+};
