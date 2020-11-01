@@ -13,8 +13,8 @@ class Player {
             w: this.canvasSize.w / 2 - (this.playerSize.w / 2),
             h: this.canvasSize.h / 2 - (this.playerSize.h / 2)
         };
-        // this.playerInstance = new Image();
-        // this.playerInstance.src = "/img/bugatti.png";
+        this.playerInstance = new Image();
+        this.playerInstance.src = "/img/bugatti.png";
         this.keys = keys;
         this.bullets = [];
         this.score = points
