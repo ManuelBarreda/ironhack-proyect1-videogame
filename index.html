@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="./styles/style.css">
+        <title>Videogame</title>
+    </head>
+
+    <body>
+
+        <section id="popmenu">
+            <div class="menu">
+                <h1>Canvas game</h1>
+                <section id="instructions">
+                    <h2>Instructions</h2>
+                    <p>Use [W], [A], [S] and [D] keys to AIM your shot.</p>
+                    <p>Use [SPACE] to SHOOT.</p>
+                </section>
+
+                <section id="top-scores">
+                    <h2>Top Scores</h2>
+                    <ul>
+                        <li>1. <span>0</span></li>
+                        <li>2. <span>0</span></li>
+                        <li>3. <span>0</span></li>
+                        <li>4. <span>0</span></li>
+                        <li>5. <span>0</span></li>
+                    </ul>
+                </section>
+
+                <button id="start-button">Start Game</button>
+            </div>
+        </section>
+        
+        <div id="score">
+            <p>Your score: <span id="points">0</span></p>
+        </div>
+
+        <div id="gameboard">
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <script src="./js/bullet.js"></script>
+        <script src="./js/obstacle.js"></script>
+        <script src="./js/player.js"></script>
+        <script src="./js/background.js"></script>
+        <script src="./js/game.js"></script>
+        <script src="./js/index.js"></script>
+    </body>
+</html>
