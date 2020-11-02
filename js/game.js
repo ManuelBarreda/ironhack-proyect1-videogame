@@ -55,7 +55,12 @@ const gameApp = {
             this.isCollision() ? this.gameOver() : null  
 
             this.isTarget() ? this.destroyObs() : null
-            this.ctx.fillText("Your Score: " + this.counterScore, 50, 50)
+            
+            this.ctx.fillStyle = "#2ccaed"
+            this.ctx.fillRect( 20, 20, 175, 40)
+            this.ctx.fillStyle = "white"
+            this.ctx.font = 'bold 16px Courier New'
+            this.ctx.fillText("YOUR SCORE: " + this.counterScore, 40, 45)
 
         }, 1000 / this.FPS)
     },
@@ -130,8 +135,21 @@ const gameApp = {
 
     gameOver() {
         //HOW TO? Mensaje de Game over, log current score to top scores
-
         clearInterval(this.interval)
-        alert ("Game Over")
+        if (this.counterScore <= 1) {
+            this.ctx.fillStyle = "#2ccaed"
+            this.ctx.fillRect(this.canvasSize.w/2-60-20, this.canvasSize.h/2-25-20, 175, 40)
+            this.ctx.fillStyle = "white"
+            this.ctx.font = 'bold 25px Courier New'
+            this.ctx.fillText("GAME OVER", this.canvasSize.w/2-60, this.canvasSize.h/2-25)
+            this.ctx.fillText("Your score is " + this.counterScore, this.canvasSize.w/2-60, this.canvasSize.h/2)
+            this.ctx.fillText("SERÁS MERLUZO!", this.canvasSize.w/2-60, this.canvasSize.h/2+25)
+        }
     },
 };
+
+// this.ctx.fillStyle = "#2ccaed"
+//             this.ctx.fillRect( 20, 20, 175, 40)
+//             this.ctx.fillStyle = "white"
+//             this.ctx.font = 'bold 16px Courier New'
+//             this.ctx.fillText("YOUR SCORE: " + this.counterScore, 40, 45)
