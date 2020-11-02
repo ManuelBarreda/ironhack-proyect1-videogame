@@ -22,7 +22,8 @@ const gameApp = {
     background: undefined,
     player: undefined,
     obstacles: [],
-    score: undefined,
+    //score: undefined,
+    counterScore: 0,
 
     init(id) {
         this.canvasTag = document.getElementById(id);
@@ -30,7 +31,7 @@ const gameApp = {
         this.setDimensions();
         this.background = new Background (this.ctx, this.canvasSize.w, this.canvasSize.h, "./img/dragon-ball-mountains-bg.png")    //constructor(ctx, bgWidth, bgHeight)
         this.background.drawBg()
-        this.score = document.getElementById('points')
+        //this.score = document.getElementById('points').innerText
     },
 
     setDimensions() {
@@ -51,16 +52,12 @@ const gameApp = {
 
             this.frames > 5000 ? this.frames = 0 : this.frames++
 
-            this.isCollision() ? this.gameOver() : null     //REVISAR FUNCIONAMIENTO
+            this.isCollision() ? this.gameOver() : null  
 
-            // if (this.isTarget()) {                                  //REVISAR VALIDEZ
-            //     this.obstacles.forEach(obs => obs.destroyObs())
-            //     this.score++
-            // }
-            this.isTarget() ? destroyObs() : null
-            console.log(this.isTarget())
+            this.isTarget() ? this.destroyObs() : null
+            this.ctx.fillText("Your Score: " + this.counterScore, 50, 50)
 
-        }, 1000 / this.FPS)    //ESTO NECESITO QUE ME LO EXPLIQUEN
+        }, 1000 / this.FPS)
     },
 
     reset() {
@@ -119,6 +116,16 @@ const gameApp = {
             })
         })
         
+    },
+
+    destroyObs() {
+        //Completar función destrucción obstaculo con colisión de balas
+        //this.obstacles = this.obstacles.filter(obs => this.obstacles.splice(this.obstacles.indexOf(obs), 1))
+        this.obstacles.shift()
+        this.player.bullets.shift()
+        this.counterScore++;
+        //this.score = this.counterScore;
+        //console.log(this.score)
     },
 
     gameOver() {

@@ -6,8 +6,8 @@ class Player {
             h: canvasHeight
         };
         this.playerSize = {
-            w: 802*0.1,
-            h: 979*0.1
+            w: 802*0.15,
+            h: 979*0.15
         };
         this.playerPos = {
             x: this.canvasSize.w / 2 - (this.playerSize.w / 2),

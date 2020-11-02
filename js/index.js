@@ -10,6 +10,6 @@ window.onload = () => {
     function startGame() {
         document.getElementById('popmenu').style.display = 'none'
         gameApp.start();
-        document.getElementById('score').style.display = 'block'
+        //document.getElementById('score').style.display = 'block'
     };
 }
