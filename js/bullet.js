@@ -1,5 +1,5 @@
 class Bullet {
-    constructor(ctx, playerPosX, playerPosY, playerWidth, playerHeight) {
+    constructor(ctx, playerPosX, playerPosY, playerWidth, playerHeight, shootDir) {
         this.ctx = ctx
         this.bulletPos = {
             x: playerPosX + (playerWidth / 2),
@@ -17,7 +17,8 @@ class Bullet {
             x: 10,
             y: 10
         }
-        this.radius = 5
+        this.radius = 5;
+        this.shootDir = shootDir
     }
 
     drawBullet() {
@@ -30,7 +31,19 @@ class Bullet {
     }
 
     moveBullet() {
-        this.bulletPos.x += this.bulletVel.x
-        this.bulletPos.y += this.bulletVel.y
+        switch (this.shootDir) {
+            case 'top':
+                this.bulletPos.y -= this.bulletVel.y
+                break;
+            case 'left':
+                this.bulletPos.x -= this.bulletVel.x
+                break;
+            case 'down':
+                this.bulletPos.y += this.bulletVel.y
+                break;
+            case 'right':
+                this.bulletPos.x += this.bulletVel.x
+                break;
+        }
     }
 }

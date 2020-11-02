@@ -29,7 +29,7 @@ const gameApp = {
         this.canvasTag = document.getElementById(id);
         this.ctx = this.canvasTag.getContext('2d');
         this.setDimensions();
-        this.background = new Background (this.ctx, this.canvasSize.w, this.canvasSize.h)    //constructor(ctx, bgWidth, bgHeight)
+        this.background = new Background (this.ctx, this.canvasSize.w, this.canvasSize.h, "./img/dragon-ball-mountains-bg.png")    //constructor(ctx, bgWidth, bgHeight)
         this.background.drawBg()
         this.score = document.getElementById('points')
     },
@@ -59,7 +59,7 @@ const gameApp = {
                 this.score++
             }
 
-        }, 1000 / this.FPS)    //ESTO NECESITO QUE ME LO EXPLIQUEN
+        }, 5000)    //ESTO NECESITO QUE ME LO EXPLIQUEN
     },
 
     reset() {
@@ -81,9 +81,10 @@ const gameApp = {
     },
 
     generateObstacle() {
-        if (this.framesCounter % 90 === 0) {
+        if (this.frames % 10 === 0) {
         this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, 'black'))      // constructor(ctx, canvasWidth, canvasHeight, color) {
         }
+        console.log (this.obstacles)
     },
 
     clearObstacles() {
