@@ -14,19 +14,24 @@ class Bullet {
             h: playerHeight
         }
         this.bulletVel = {
-            x: 10,
-            y: 10
+            x: 5,
+            y: 5
+        }
+        this.bulletSize = {
+            w: 5,
+            h: 5
         }
         this.radius = 5;
         this.shootDir = shootDir
     }
 
     drawBullet() {
-        this.ctx.beginPath()
+        //this.ctx.beginPath()
         this.ctx.fillStyle = "black"
-        this.ctx.arc(this.bulletPos.x, this.bulletPos.y, this.radius, 0, Math.PI * 2)
-        this.ctx.fill()
-        this.ctx.closePath()
+        this.ctx.fillRect(this.bulletPos.x, this.bulletPos.y, this.bulletSize.w, this.bulletSize.h)
+        //this.ctx.arc(this.bulletPos.x, this.bulletPos.y, this.radius, 0, Math.PI * 2)
+        //this.ctx.fill()
+        //this.ctx.closePath()
         this.moveBullet()
     }
 

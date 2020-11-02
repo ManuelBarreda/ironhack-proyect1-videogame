@@ -10,44 +10,52 @@ class Obstacle {
             h: canvasHeight
         }
         this.obsPos = {
-            x: undefined,   //Redefinir para que salgan de todas partes
-            y: undefined,
+            x: this.canvasSize.w / 2 -this.obsSize.w/2,   //Redefinir para que salgan de todas partes
+            y: 0,
         }
         this.obsVel = {
-            x: 10,
-            y: 10
+            x: 5,
+            y: 5
         }
         this.color = color
         this.originsArray = ["top", "left", "down", "right"]
-        this.origin = undefined
+        this.origin = "top"
+        //this.randomOrigin()
 
     }
 
-    randomOrigin() {
-        let i = Math.random()*(this.originsArray.length - 0) + 0
-        this.origin = this.originsArray[i]
-    }
+    // randomOrigin() {
+
+    //     // this.originsArray.forEach (elm => this.origin = elm)
+    //     let i = Math.random()*(this.originsArray.length - 0) + 0
+    //     this.origin = this.originsArray[i]
+    //     // return this.origin
+    //      switch (this.origin) {
+    //         case "top":
+    //             this.obsPos.x = this.canvasSize.w / 2
+    //             this.obsPos.y = 0
+    //             break;
+    //         case "left":
+    //             this.obsPos.x = 0
+    //             this.obsPos.y = this.canvasSize.h / 2
+    //             break;
+    //         case "down":
+    //             this.obsPos.x = this.canvasSize.w / 2
+    //             this.obsPos.y = this.canvasSize.h
+    //             break;
+    //         case "right":
+    //             this.obsPos.x = this.canvasSize.w
+    //             this.obsPos.y = this.canvasSize.h / 2
+    //             break;
+    //         default:
+    //             this.obsPos.x = this.canvasSize.w / 2
+    //             this.obsPos.y = 0
+    //             break;
+    //     }
+    // }
 
     drawObs() {
-        this.randomOrigin
-        switch (this.origin) {
-            case "top":
-                this.obsPos.x = this.canvasSize.w / 2
-                this.obsPos.y = 0
-                break;
-            case "left":
-                this.obsPos.x = 0
-                this.obsPos.y = this.canvasSize.h / 2
-                break;
-            case "down":
-                this.obsPos.x = this.canvasSize.w / 2
-                this.obsPos.y = this.canvasSize.h
-                break;
-            case "top":
-                this.obsPos.x = this.canvasSize.w
-                this.obsPos.y = this.canvasSize.h / 2
-                break;
-        }
+       
         this.ctx.fillStyle = this.color
         this.ctx.fillRect(this.obsPos.x, this.obsPos.y, this.obsSize.w, this.obsSize.h)
         this.moveObs()
@@ -72,5 +80,7 @@ class Obstacle {
     
     destroyObs() {
         //Completar función destrucción obstaculo con colisión de balas
+        score++;
+        
     }
 }

@@ -22,7 +22,6 @@ const gameApp = {
     background: undefined,
     player: undefined,
     obstacles: [],
-    bullets: [],
     score: undefined,
 
     init(id) {
@@ -54,12 +53,14 @@ const gameApp = {
 
             this.isCollision() ? this.gameOver() : null     //REVISAR FUNCIONAMIENTO
 
-            if (this.isTarget()) {                                  //REVISAR VALIDEZ
-                this.obstacles.forEach(obs => obs.destroyObs())
-                this.score++
-            }
+            // if (this.isTarget()) {                                  //REVISAR VALIDEZ
+            //     this.obstacles.forEach(obs => obs.destroyObs())
+            //     this.score++
+            // }
+            this.isTarget() ? destroyObs() : null
+            console.log(this.isTarget())
 
-        }, 5000)    //ESTO NECESITO QUE ME LO EXPLIQUEN
+        }, 1000 / this.FPS)    //ESTO NECESITO QUE ME LO EXPLIQUEN
     },
 
     reset() {
@@ -81,36 +82,49 @@ const gameApp = {
     },
 
     generateObstacle() {
-        if (this.frames % 10 === 0) {
+        if (this.frames % 100 === 0) {
         this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, 'black'))      // constructor(ctx, canvasWidth, canvasHeight, color) {
         }
-        console.log (this.obstacles)
+        //console.log(this.obstacles)
     },
 
     clearObstacles() {
-        this.obstacles = this.obstacles.filter(obs => obs.obsPos.x >= 0);
-        this.obstacles = this.obstacles.filter(obs => obs.obsPos.y >=0);
-        //Si los obstáculos se quedan dentro de la pantalla los eliminamos con colisiones??
+        this.obstacles = this.obstacles.filter(b => (b.obsPos.x >= 0 && b.obsPos.x <= this.canvasSize.w) && (b.obsPos.y >= 0 && b.obsPos.y <= this.canvasSize.h))
     },
 
     isCollision() {
         //  COLISIONES obstaculo + jugador = game over()
         return this.obstacles.some(obs => {
             return (
-            this.player.posX + this.player.width >= obs.posX &&
-            this.player.posY + this.player.height >= obs.posY &&
-            this.player.posX <= obs.posX + obs.width
+            this.player.playerPos.x + this.player.playerSize.w >= obs.obsPos.x &&
+            this.player.playerPos.y + this.player.playerSize.h >= obs.obsPos.y &&
+            this.player.playerPos.x <= obs.obsPos.x + obs.obsSize.w &&
+            this.player.playerPos.y <= obs.obsPos.y + obs.obsSize.h
             )
         })
     },
 
     isTarget() {
         //  COLISIONES balas + obstaculos = destroyObs() && score++
+        return this.player.bullets.some(bullet => {
+            return this.obstacles.some(obs => {
+                if (
+                    bullet.bulletPos.x + bullet.bulletSize.w >= obs.obsPos.x &&
+                    bullet.bulletPos.y + bullet.bulletSize.h >= obs.obsPos.y &&
+                    bullet.bulletPos.x <= obs.obsPos.x + obs.obsSize.w &&
+                    bullet.bulletPos.y <= obs.obsPos.y + obs.obsSize.h
+                ) {
+                    return true
+                }
+            })
+        })
+        
     },
 
     gameOver() {
         //HOW TO? Mensaje de Game over, log current score to top scores
 
         clearInterval(this.interval)
+        alert ("Game Over")
     },
 };
