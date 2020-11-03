@@ -14,24 +14,28 @@ class Bullet {
             h: playerHeight
         }
         this.bulletVel = {
-            x: 5,
-            y: 5
+            x: 7,
+            y: 7
         }
         this.bulletSize = {
-            w: 5,
-            h: 5
+            w: 20,
+            h: 20
         }
         this.radius = 5;
         this.shootDir = shootDir
+        this.image = new Image();
+        this.image.src = "./img/goku-shot-ball.png"
     }
 
     drawBullet() {
         //this.ctx.beginPath()
-        this.ctx.fillStyle = "black"
-        this.ctx.fillRect(this.bulletPos.x, this.bulletPos.y, this.bulletSize.w, this.bulletSize.h)
+        // this.ctx.fillStyle = "black"
+        // this.ctx.fillRect(this.bulletPos.x, this.bulletPos.y, this.bulletSize.w, this.bulletSize.h)
         //this.ctx.arc(this.bulletPos.x, this.bulletPos.y, this.radius, 0, Math.PI * 2)
         //this.ctx.fill()
         //this.ctx.closePath()
+
+        this.ctx.drawImage(this.image, (this.bulletPos.x - this.bulletSize.w / 2), (this.bulletPos.y - this.bulletSize.h / 2), this.bulletSize.w, this.bulletSize.h);
         this.moveBullet()
     }
 

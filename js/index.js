@@ -1,5 +1,4 @@
 window.onload = () => {
-    // WANT TO ADD BACKGROUND HERE
 
     gameApp.init('canvas')
 

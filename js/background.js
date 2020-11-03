@@ -17,6 +17,6 @@ class Background {
     drawBg() {
         // this.ctx.fillStyle = 'blue'
         // this.ctx.fillRect(this.bgPos.x, this.bgPos.y, this.bgSize.w, this.bgSize.h)
-        this.ctx.drawImage(this.image, this.bgPos.x, this.bgPos.y, this.bgSize.w, this.bgSize.h);    // La src de la imagen me da error.
+        this.ctx.drawImage(this.image, this.bgPos.x, this.bgPos.y, this.bgSize.w, this.bgSize.h);
     }
 };

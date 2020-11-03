@@ -6,36 +6,62 @@ class Player {
             h: canvasHeight
         };
         this.playerSize = {
-            w: 802*0.15,
-            h: 979*0.15
+            w: 100,
+            h: 100
         };
         this.playerPos = {
             x: this.canvasSize.w / 2 - (this.playerSize.w / 2),
             y: this.canvasSize.h / 2 - (this.playerSize.h / 2)
         };
         this.playerImage = new Image();
-        this.playerImage.src =  "./img/toppng.com-dragon-ball-nimbus-cloud-goku-en-su-nube-voladora-802x979.png"
+        this.playerImage.src = "./img/goku-kid-nimbus-sprite.png"
+        this.playerImage.frames = 4;
+        this.playerImage.framesIndex = 1;
         this.keys = keys;
         this.bullets = [];
         this.score = points;
-        this.shootDir = "top"
-
+        this.shootDir = "down"
+        this.shootSound = new Sound("./audio/ball-dragon-gt-jump.mp3");
         this.eventListeners();
     }
 
     drawPlayer() {
-        this.ctx.drawImage(this.playerImage, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h)
-        // this.ctx.fillStyle = 'black'
-        // this.ctx.fillRect(this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h)
         this.bullets.forEach(b => b.drawBullet())
-
         this.clearBullets()
+
+        this.ctx.drawImage(this.playerImage,
+            this.playerImage.framesIndex * Math.floor(this.playerImage.width / this.playerImage.frames),
+            0,
+            Math.floor(this.playerImage.width / this.playerImage.frames),
+            this.playerImage.height,
+            this.playerPos.x,
+            this.playerPos.y,
+            this.playerSize.w,
+            this.playerSize.h)
+
+        this.animate()
+    }
+
+    animate() {
+        switch (this.shootDir) {
+            case 'top':
+                this.playerImage.framesIndex = 3;
+                break;
+            case 'left':
+                this.playerImage.framesIndex = 0;
+                break;
+            case 'down':
+                this.playerImage.framesIndex = 1;
+                break;
+            case 'right':
+                this.playerImage.framesIndex = 2;
+                break;
+        }
     }
 
     shoot() {
-        // this.score++  -> Lo he usado para comprobar que this.score va aumentando, falta loggearlo en el HTML de "Your score"
-        // console.log(this.score, typeof(this.score))
-        this.bullets.push(new Bullet(this.ctx, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h, this.shootDir))  //constructor(ctx, playerPosX, playerPosY, playerWidth, playerHeight, color)
+        this.bullets.push(new Bullet(this.ctx, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h, this.shootDir))
+        this.shootSound.play()
     }
 
     clearBullets() {

@@ -1,63 +1,37 @@
 class Obstacle {
-    constructor(ctx, canvasWidth, canvasHeight, color) {
+    constructor(ctx, canvasWidth, canvasHeight, positionX, positionY, direction) {
         this.ctx = ctx
         this.obsSize = {
-            w: 20,
-            h: 20
+            w: 40,
+            h: 40
         }
         this.canvasSize = {
             w: canvasWidth,
             h: canvasHeight
         }
         this.obsPos = {
-            x: this.canvasSize.w / 2 -this.obsSize.w/2,   //Redefinir para que salgan de todas partes
-            y: 0,
+            // x: this.canvasSize.w / 2 - this.obsSize.w/2,
+            // y: 0,
+            x: positionX,
+            y: positionY
         }
+            
         this.obsVel = {
             x: 5,
             y: 5
         }
-        this.color = color
-        this.originsArray = ["top", "left", "down", "right"]
-        this.origin = "top"
-        // this.randomOrigin()
 
-    }
+        this.image = new Image();
+        this.image.src = "./img/vegeta-shot-ball.png"
+        this.origin = direction
 
-    randomOrigin() {
-
-        // this.originsArray.forEach (elm => this.origin = elm)
-        let i = Math.random()*(this.originsArray.length - 0) + 0
-        this.origin = this.originsArray[i]
-        // return this.origin
-         switch (this.origin) {
-            case "top":
-                this.obsPos.x = this.canvasSize.w / 2
-                this.obsPos.y = 0
-                break;
-            case "left":
-                this.obsPos.x = 0
-                this.obsPos.y = this.canvasSize.h / 2
-                break;
-            case "down":
-                this.obsPos.x = this.canvasSize.w / 2
-                this.obsPos.y = this.canvasSize.h
-                break;
-            case "right":
-                this.obsPos.x = this.canvasSize.w
-                this.obsPos.y = this.canvasSize.h / 2
-                break;
-            default:
-                this.obsPos.x = this.canvasSize.w / 2
-                this.obsPos.y = 0
-                break;
-        }
     }
 
     drawObs() {
-       
-        this.ctx.fillStyle = this.color
-        this.ctx.fillRect(this.obsPos.x, this.obsPos.y, this.obsSize.w, this.obsSize.h)
+        // this.ctx.fillStyle = this.color
+        // this.ctx.fillRect(this.obsPos.x, this.obsPos.y, this.obsSize.w, this.obsSize.h)
+
+        this.ctx.drawImage(this.image, this.obsPos.x, this.obsPos.y, this.obsSize.w, this.obsSize.h);
         this.moveObs()
     }
 
