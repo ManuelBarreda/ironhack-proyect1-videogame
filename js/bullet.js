@@ -25,6 +25,7 @@ class Bullet {
         this.shootDir = shootDir
         this.image = new Image();
         this.image.src = "./img/goku-shot-ball.png"
+        this.haveToRemove = false
     }
 
     drawBullet() {

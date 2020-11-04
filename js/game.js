@@ -75,7 +75,7 @@ const gameApp = {
         this.targetSound = new Sound("./audio/Punch_HD-Mark_DiAngelo-1718986183.mp3")
         this.endSound = new Sound("./audio/dragon-ball.mp3")
         this.player = new Player(this.ctx, this.canvasSize.w, this.canvasSize.h, this.keys, this.score)
-        this.bullets = []
+        this.player.bullets = []
         this.obstacles = []
         this.counterScore = 0
 
@@ -162,12 +162,24 @@ const gameApp = {
                 }
             })
         })
-        
     },
+
+    // haveToRemove() {
+    //     if (this.isTarget()) {
+    //         this.bullet.haveToRemove = true
+    //     }
+    // },
 
     destroyObs() {
         this.obstacles.shift()
         this.player.bullets.shift()
+        // this.player.bullets.forEach(bullet => {
+        //     let i = 0
+        //     if (this.isTarget()) {
+        //         i = this.player.bullets.indexOf(bullet)
+        //     }
+        //     delete this.player.bullets[i-1]
+        // });
         this.counterScore++;
     },
 
@@ -206,16 +218,16 @@ const gameApp = {
         this.ctx.fillText("Your score is " + this.counterScore, this.canvasSize.w / 2, this.canvasSize.h / 2)
         this.ctx.textBaseline = "top"
         
-        if (this.counterScore <= 1) {
+        if (this.counterScore <= 10) {
             this.ctx.fillText("SERÁS MERLUZO!", this.canvasSize.w / 2, this.canvasSize.h / 2 + interline)
             
-        } else if (this.counterScore <= 2) {
+        } else if (this.counterScore <= 50) {
             this.ctx.fillText("PONLE SALSOTA!", this.canvasSize.w / 2, this.canvasSize.h / 2 + interline)
 
-        } else if (this.counterScore <= 3) {
+        } else if (this.counterScore <= 100) {
             this.ctx.fillText("DALE FUEGOTE!", this.canvasSize.w / 2, this.canvasSize.h / 2 + interline)
 
-        } else {
+        } else if (this.counterScore <= 250) {
             this.ctx.fillText("VAYA FANTASÍA!!!", this.canvasSize.w / 2, this.canvasSize.h / 2 + interline)
         }
     },
