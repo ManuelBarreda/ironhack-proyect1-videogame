@@ -26,6 +26,7 @@ const gameApp = {
     counterScore: 0,
     position: {},
     obsRemove: false,
+    gameSpeed: 1,
 
     init(id) {
         this.canvasTag = document.getElementById(id);
@@ -51,7 +52,6 @@ const gameApp = {
             this.bgSound.play()
 
             this.generateObstacle();
-            this.clearObstacles();
 
             this.frames > 5000 ? this.frames = 0 : this.frames++
 
@@ -68,6 +68,9 @@ const gameApp = {
             this.drawScore()
 
         }, 1000 / this.FPS)
+        this.speedInterval = setInterval(() => {
+            this.gameSpeed+=2
+        }, 5000)
     },
 
     reset() {
@@ -76,7 +79,7 @@ const gameApp = {
         this.colSound = new Sound("./audio/NFF-thud.wav")
         this.targetSound = new Sound("./audio/Punch_HD-Mark_DiAngelo-1718986183.mp3")
         this.endSound = new Sound("./audio/dragon-ball.mp3")
-        this.player = new Player(this.ctx, this.canvasSize.w, this.canvasSize.h, this.keys, this.score)
+        this.player = new Player(this.ctx, this.canvasSize.w, this.canvasSize.h, this.keys, this.score, this.gameSpeed)
         this.player.bullets = []
         this.obstacles = []
         this.counterScore = 0
@@ -96,13 +99,12 @@ const gameApp = {
     generateObstacle() {
         this.randomOrigin()
         if (this.frames % 25 === 0) {
-        this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove))
+        this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
         }
     },
 
-
     randomOrigin() {
-        let originsArray = ["top", "left", "down", "right"]
+        let originsArray = ["left", "top", "right", "down"]
         let i = Math.floor(Math.random() * (originsArray.length))
         let origin = originsArray[i]
         this.position = {
@@ -136,10 +138,6 @@ const gameApp = {
         return this.position
     },
 
-    clearObstacles() {
-        this.obstacles = this.obstacles.filter(b => (b.obsPos.x >= 0 && b.obsPos.x <= this.canvasSize.w) && (b.obsPos.y >= 0 && b.obsPos.y <= this.canvasSize.h))
-    },
-
     isCollision() {
         return this.obstacles.some(obs => {
             return (
@@ -165,13 +163,10 @@ const gameApp = {
                     return true
                 }
             })
-        })
-        
+        })   
     },
 
-
     destroyObs() {
-        console.log(this.obstacles)
         this.obstacles = this.obstacles.filter(eachObs => eachObs.obsRemove === false)
         this.player.bullets = this.player.bullets.filter(eachBullet => eachBullet.bulletRemove === false)
         this.counterScore++;
@@ -181,6 +176,7 @@ const gameApp = {
         this.bgSound.stop()
         this.endSound.play()
         clearInterval(this.interval)
+        clearInterval(this.speedInterval)
         this.drawEndMessage()
         const reload = document.querySelector("#restart-button")
         reload.style.display = "block"
@@ -195,7 +191,6 @@ const gameApp = {
         this.ctx.font = 'bold 16px Courier New'
         this.ctx.fillText("YOUR SCORE: " + this.counterScore, 40, 45)
     },
-
 
     drawEndMessage() {
 

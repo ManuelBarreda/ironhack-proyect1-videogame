@@ -1,5 +1,5 @@
 class Player {
-    constructor(ctx, canvasWidth, canvasHeight, keys, points) {
+    constructor(ctx, canvasWidth, canvasHeight, keys, points, gameSpeed) {
         this.ctx = ctx;
         this.canvasSize = {
             w: canvasWidth,
@@ -18,6 +18,7 @@ class Player {
         this.playerImage.frames = 4;
         this.playerImage.framesIndex = 1;
         this.keys = keys;
+        this.gameSpeed = gameSpeed;
         this.bullets = [];
         this.bulletRemove = false;
         this.score = points;
@@ -61,7 +62,7 @@ class Player {
     }
 
     shoot() {
-        this.bullets.push(new Bullet(this.ctx, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h, this.shootDir, this.bulletRemove))
+        this.bullets.push(new Bullet(this.ctx, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h, this.shootDir, this.bulletRemove, this.gameSpeed))
         this.shootSound.play()
     }
 

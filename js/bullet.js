@@ -1,5 +1,5 @@
 class Bullet {
-    constructor(ctx, playerPosX, playerPosY, playerWidth, playerHeight, shootDir, bulletRemove) {
+    constructor(ctx, playerPosX, playerPosY, playerWidth, playerHeight, shootDir, bulletRemove, gameSpeed) {
         this.ctx = ctx
         this.bulletPos = {
             x: playerPosX + (playerWidth / 2),
@@ -14,8 +14,8 @@ class Bullet {
             h: playerHeight
         }
         this.bulletVel = {
-            x: 7,
-            y: 7
+            x: 7+gameSpeed,
+            y: 7+gameSpeed
         }
         this.bulletSize = {
             w: 30,
