@@ -6,8 +6,8 @@ class Player {
             h: canvasHeight
         };
         this.playerSize = {
-            w: 100,
-            h: 100
+            w: 120,
+            h: 120
         };
         this.playerPos = {
             x: this.canvasSize.w / 2 - (this.playerSize.w / 2),
@@ -69,7 +69,7 @@ class Player {
     }
 
     eventListeners() {
-        document.addEventListener("keydown", e => {
+        document.addEventListener("keyup", e => {
             switch (e.key) {
                 case this.keys.keySpace:
                     this.shoot();

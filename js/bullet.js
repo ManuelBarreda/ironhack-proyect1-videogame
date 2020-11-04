@@ -18,8 +18,8 @@ class Bullet {
             y: 7
         }
         this.bulletSize = {
-            w: 20,
-            h: 20
+            w: 30,
+            h: 30
         }
         this.radius = 5;
         this.shootDir = shootDir
@@ -28,12 +28,6 @@ class Bullet {
     }
 
     drawBullet() {
-        //this.ctx.beginPath()
-        // this.ctx.fillStyle = "black"
-        // this.ctx.fillRect(this.bulletPos.x, this.bulletPos.y, this.bulletSize.w, this.bulletSize.h)
-        //this.ctx.arc(this.bulletPos.x, this.bulletPos.y, this.radius, 0, Math.PI * 2)
-        //this.ctx.fill()
-        //this.ctx.closePath()
 
         this.ctx.drawImage(this.image, (this.bulletPos.x - this.bulletSize.w / 2), (this.bulletPos.y - this.bulletSize.h / 2), this.bulletSize.w, this.bulletSize.h);
         this.moveBullet()

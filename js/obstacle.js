@@ -2,23 +2,21 @@ class Obstacle {
     constructor(ctx, canvasWidth, canvasHeight, positionX, positionY, direction) {
         this.ctx = ctx
         this.obsSize = {
-            w: 40,
-            h: 40
+            w: 50,
+            h: 50
         }
         this.canvasSize = {
             w: canvasWidth,
             h: canvasHeight
         }
         this.obsPos = {
-            // x: this.canvasSize.w / 2 - this.obsSize.w/2,
-            // y: 0,
-            x: positionX,
-            y: positionY
+            x: positionX-this.obsSize.w/2,
+            y: positionY-this.obsSize.h/2
         }
             
         this.obsVel = {
-            x: 5,
-            y: 5
+            x: 10,
+            y: 10
         }
 
         this.image = new Image();
@@ -28,8 +26,6 @@ class Obstacle {
     }
 
     drawObs() {
-        // this.ctx.fillStyle = this.color
-        // this.ctx.fillRect(this.obsPos.x, this.obsPos.y, this.obsSize.w, this.obsSize.h)
 
         this.ctx.drawImage(this.image, this.obsPos.x, this.obsPos.y, this.obsSize.w, this.obsSize.h);
         this.moveObs()

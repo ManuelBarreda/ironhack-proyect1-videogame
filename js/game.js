@@ -74,10 +74,11 @@ const gameApp = {
         this.colSound = new Sound("./audio/NFF-thud.wav")
         this.targetSound = new Sound("./audio/Punch_HD-Mark_DiAngelo-1718986183.mp3")
         this.endSound = new Sound("./audio/dragon-ball.mp3")
-        this.player = new Player(this.ctx, this.canvasSize.w, this.canvasSize.h, this.keys, this.score) //constructor(ctx, canvasWidth, canvasHeight, keys)
-        this.obstacles = []
+        this.player = new Player(this.ctx, this.canvasSize.w, this.canvasSize.h, this.keys, this.score)
         this.bullets = []
-        this.score = 0
+        this.obstacles = []
+        this.counterScore = 0
+
     },
 
     drawAll() {
@@ -92,7 +93,7 @@ const gameApp = {
 
     generateObstacle() {
         this.randomOrigin()
-        if (this.frames % 100 === 0) {
+        if (this.frames % 25 === 0) {
         this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir))
         }
     },
@@ -165,18 +166,18 @@ const gameApp = {
     },
 
     destroyObs() {
-        //Completar función destrucción obstaculo con colisión de balas
-        //this.obstacles = this.obstacles.filter(obs => this.obstacles.splice(this.obstacles.indexOf(obs), 1))
         this.obstacles.shift()
         this.player.bullets.shift()
         this.counterScore++;
     },
 
     gameOver() {
-        clearInterval(this.interval)
         this.bgSound.stop()
         this.endSound.play()
+        clearInterval(this.interval)
         this.drawEndMessage()
+        const reload = document.querySelector("#restart-button")
+        reload.style.display = "block"
     },
 
     drawScore() {
