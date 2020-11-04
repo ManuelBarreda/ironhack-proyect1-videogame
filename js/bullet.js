@@ -32,6 +32,7 @@ class Bullet {
 
         this.ctx.drawImage(this.image, (this.bulletPos.x - this.bulletSize.w / 2), (this.bulletPos.y - this.bulletSize.h / 2), this.bulletSize.w, this.bulletSize.h);
         this.moveBullet()
+        console.log(this.bulletVel)
     }
 
     moveBullet() {

@@ -28,7 +28,6 @@ class Obstacle {
     }
 
     drawObs() {
-        console.log(this.origin)
         this.ctx.drawImage(this.image, this.obsPos.x, this.obsPos.y, this.obsSize.w, this.obsSize.h);
         this.moveObs()
     }

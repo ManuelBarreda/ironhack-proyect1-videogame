@@ -1,5 +1,5 @@
 class Player {
-    constructor(ctx, canvasWidth, canvasHeight, keys, points, gameSpeed) {
+    constructor(ctx, canvasWidth, canvasHeight, keys, points,) {
         this.ctx = ctx;
         this.canvasSize = {
             w: canvasWidth,
@@ -18,13 +18,16 @@ class Player {
         this.playerImage.frames = 4;
         this.playerImage.framesIndex = 1;
         this.keys = keys;
-        this.gameSpeed = gameSpeed;
+        this.gameSpeed = 0;
         this.bullets = [];
         this.bulletRemove = false;
         this.score = points;
         this.shootDir = "down"
         this.shootSound = new Sound("./audio/ball-dragon-gt-jump.mp3");
         this.eventListeners();
+        this.speedInterval = setInterval(() => {
+            this.gameSpeed++
+        }, 5000)
     }
 
     drawPlayer() {

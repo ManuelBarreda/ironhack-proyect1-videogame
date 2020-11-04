@@ -26,7 +26,7 @@ const gameApp = {
     counterScore: 0,
     position: {},
     obsRemove: false,
-    gameSpeed: 1,
+    gameSpeed: 0,
 
     init(id) {
         this.canvasTag = document.getElementById(id);
@@ -69,7 +69,7 @@ const gameApp = {
 
         }, 1000 / this.FPS)
         this.speedInterval = setInterval(() => {
-            this.gameSpeed+=2
+            this.gameSpeed++
         }, 5000)
     },
 
