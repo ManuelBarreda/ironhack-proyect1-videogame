@@ -17,7 +17,6 @@ window.onload = () => {
     function tryAgain() {
         const reloadButton = document.querySelector("#restart-button")
         reloadButton.style.display = "none"
-        //window.reload()
         gameApp.start()
     }
 }

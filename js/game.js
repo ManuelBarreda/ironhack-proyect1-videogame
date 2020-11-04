@@ -4,6 +4,7 @@ const gameApp = {
     version: '1.0.0',
     license: undefined,
     authors: 'Patricia Muñoz de Dios & Manuel de la Barreda',
+    specialThanksTo: 'Germán Álvarez, Enrique Montaño, Gonzalo Argüelles & Hector Carramiñana',
     canvasTag: undefined,
     ctx: undefined,
     FPS: 60,
@@ -24,6 +25,7 @@ const gameApp = {
     obstacles: [],
     counterScore: 0,
     position: {},
+    obsRemove: false,
 
     init(id) {
         this.canvasTag = document.getElementById(id);
@@ -94,7 +96,7 @@ const gameApp = {
     generateObstacle() {
         this.randomOrigin()
         if (this.frames % 25 === 0) {
-        this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir))
+        this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove))
         }
     },
 
@@ -158,28 +160,20 @@ const gameApp = {
                     bullet.bulletPos.x <= obs.obsPos.x + obs.obsSize.w &&
                     bullet.bulletPos.y <= obs.obsPos.y + obs.obsSize.h
                 ) {
+                    obs.obsRemove = true;
+                    bullet.bulletRemove = true;
                     return true
                 }
             })
         })
+        
     },
 
-    // haveToRemove() {
-    //     if (this.isTarget()) {
-    //         this.bullet.haveToRemove = true
-    //     }
-    // },
 
     destroyObs() {
-        this.obstacles.shift()
-        this.player.bullets.shift()
-        // this.player.bullets.forEach(bullet => {
-        //     let i = 0
-        //     if (this.isTarget()) {
-        //         i = this.player.bullets.indexOf(bullet)
-        //     }
-        //     delete this.player.bullets[i-1]
-        // });
+        console.log(this.obstacles)
+        this.obstacles = this.obstacles.filter(eachObs => eachObs.obsRemove === false)
+        this.player.bullets = this.player.bullets.filter(eachBullet => eachBullet.bulletRemove === false)
         this.counterScore++;
     },
 

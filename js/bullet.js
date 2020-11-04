@@ -1,5 +1,5 @@
 class Bullet {
-    constructor(ctx, playerPosX, playerPosY, playerWidth, playerHeight, shootDir) {
+    constructor(ctx, playerPosX, playerPosY, playerWidth, playerHeight, shootDir, bulletRemove) {
         this.ctx = ctx
         this.bulletPos = {
             x: playerPosX + (playerWidth / 2),
@@ -25,7 +25,7 @@ class Bullet {
         this.shootDir = shootDir
         this.image = new Image();
         this.image.src = "./img/goku-shot-ball.png"
-        this.haveToRemove = false
+        this.bulletRemove = bulletRemove
     }
 
     drawBullet() {

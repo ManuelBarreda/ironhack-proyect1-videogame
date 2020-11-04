@@ -19,6 +19,7 @@ class Player {
         this.playerImage.framesIndex = 1;
         this.keys = keys;
         this.bullets = [];
+        this.bulletRemove = false;
         this.score = points;
         this.shootDir = "down"
         this.shootSound = new Sound("./audio/ball-dragon-gt-jump.mp3");
@@ -60,7 +61,7 @@ class Player {
     }
 
     shoot() {
-        this.bullets.push(new Bullet(this.ctx, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h, this.shootDir))
+        this.bullets.push(new Bullet(this.ctx, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h, this.shootDir, this.bulletRemove))
         this.shootSound.play()
     }
 

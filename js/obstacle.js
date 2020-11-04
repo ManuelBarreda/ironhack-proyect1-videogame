@@ -1,5 +1,5 @@
 class Obstacle {
-    constructor(ctx, canvasWidth, canvasHeight, positionX, positionY, direction) {
+    constructor(ctx, canvasWidth, canvasHeight, positionX, positionY, direction, obsRemove) {
         this.ctx = ctx
         this.obsSize = {
             w: 50,
@@ -21,7 +21,8 @@ class Obstacle {
 
         this.image = new Image();
         this.image.src = "./img/vegeta-shot-ball.png"
-        this.origin = direction
+        this.origin = direction;
+        this.obsRemove = obsRemove
 
     }
 
