@@ -5,6 +5,8 @@ const gameApp = {
     license: undefined,
     authors: 'Patricia Muñoz de Dios & Manuel de la Barreda',
     specialThanksTo: 'Germán Álvarez, Enrique Montaño, Gonzalo Argüelles & Hector Carramiñana',
+
+
     canvasTag: undefined,
     ctx: undefined,
     FPS: 60,
@@ -21,16 +23,18 @@ const gameApp = {
         keySpace: " ",
     },
     background: undefined,
+    extras: [],
     player: undefined,
     obstacles: [],
     vegetas: [],
     piccolos: [],
-    extras: [],
+    gameSpeed: 0,
     counterScore: 0,
     position: {},
     obsRemove: false,
-    bobRemove: false,
-    gameSpeed: 0,
+
+
+    // --- GAME INIT --- //
 
     init(id) {
         this.canvasTag = document.getElementById(id);
@@ -38,7 +42,6 @@ const gameApp = {
         this.setDimensions();
         this.background = new Background (this.ctx, this.canvasSize.w, this.canvasSize.h, "./img/dragon-ball-mountains-bg.png")
         this.background.drawBg()
-        
     },
 
     setDimensions() {
@@ -48,48 +51,30 @@ const gameApp = {
         this.canvasTag.height = this.canvasSize.h;
     },
 
+
+    // --- START GAME --- //
+
     start() {
         this.reset()
         this.interval = setInterval(() => {
-            this.clear()
+            this.clearAll()
             this.drawAll()
             this.bgSound.play()
-
+            this.frames > 5000 ? this.frames = 0 : this.frames++
             this.generateObstacle();
 
-            this.frames > 5000 ? this.frames = 0 : this.frames++
+            this.isCollision()
 
-            if (this.isCollision() || this.isCollisionVgt()) {
-                this.colSound.play()
-                this.gameOver()
-            }
-
-            if (this.isTarget()) {
-                this.targetSound.play()
-                this.counterScore++
-                this.destroyObs()
-            }
-
-            if (this.isTargetVgt()) { //if dentro de if, primer if this.vegetalives --, segundo if destroy obs
-                this.targetSound.play()
-                this.counterScore += 3
-                this.destroyObs()
-            }
-
-            if (this.isTargetPcl()) {
-                this.targetSound.play()
-                this.counterScore += 2
-                this.destroyObs()
-            }
+            this.isTarget()
             
             this.generateExtra()
             this.clearExtras()
-
             this.drawScore()
 
         }, 1000 / this.FPS)
+
         this.speedInterval = setInterval(() => {
-            this.gameSpeed++
+            this.gameSpeed += 0.5
         }, 5000)
     },
 
@@ -100,13 +85,12 @@ const gameApp = {
         this.targetSound = new Sound("./audio/Punch_HD-Mark_DiAngelo-1718986183.mp3")
         this.endSound = new Sound("./audio/dragon-ball.mp3")
         this.player = new Player(this.ctx, this.canvasSize.w, this.canvasSize.h, this.keys, this.score, this.gameSpeed)
+        this.extras = []
         this.player.bullets = []
         this.obstacles = []
         this.vegetas = []
         this.piccolos = []
-        this.extras = []
         this.counterScore = 0
-
     },
 
     drawAll() {
@@ -118,37 +102,24 @@ const gameApp = {
         this.piccolos.forEach(pcl => pcl.drawPcl())
     },
 
-    clear() {
+    clearAll() {
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
     },
 
-    generateObstacle() {
-        this.randomOrigin()
-        if (this.frames % 25 === 0) {
-        this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
-        }
-        if (this.frames % 93 === 0) {
-        this.vegetas.push(new Vegeta(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
-        }
-        if (this.frames % 47 === 0) {
-        this.piccolos.push(new Piccolo(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
-        }
+    // Score
+
+    drawScore() {
+        this.ctx.fillStyle = "#2ccaed"
+        this.ctx.fillRect(20, 25, 175, 40)
+        this.ctx.fillStyle = "white"
+        this.ctx.textAlign = "start"
+        this.ctx.textBaseline = "middle"
+        this.ctx.font = 'bold 16px Courier New'
+        this.ctx.fillText("YOUR SCORE: " + this.counterScore, 40, 45)
     },
 
-    generateExtra() {
-        if (this.frames % 700 === 0) {
-        this.extras.push(new BlueBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
-        }
-        if (this.frames % 600 === 0) {
-        this.extras.push(new GreenBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
-        }
-        if (this.frames % 500 === 0) {
-        this.extras.push(new RedBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
-        }
-        if (this.frames % 400 === 0) {
-        this.extras.push(new YellowBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
-        }
-    },
+
+    // --- RANDOMIZER --- //
 
     randomOrigin() {
         let originsArray = ["left", "top", "right", "down"]
@@ -185,101 +156,127 @@ const gameApp = {
         return this.position
     },
 
-    isCollision() {
-        return this.obstacles.some(obs => {
-            return (
-            this.player.playerPos.x + this.player.playerSize.w >= obs.obsPos.x &&
-            this.player.playerPos.y + this.player.playerSize.h >= obs.obsPos.y &&
-            this.player.playerPos.x <= obs.obsPos.x + obs.obsSize.w &&
-            this.player.playerPos.y <= obs.obsPos.y + obs.obsSize.h
-            )
-        })
-    },
 
-    isCollisionVgt() {
-        return this.vegetas.some(vgt => {
-            return (
-            this.player.playerPos.x + this.player.playerSize.w >= vgt.vgtPos.x &&
-            this.player.playerPos.y + this.player.playerSize.h >= vgt.vgtPos.y &&
-            this.player.playerPos.x <= vgt.vgtPos.x + vgt.vgtSize.w &&
-            this.player.playerPos.y <= vgt.vgtPos.y + vgt.vgtSize.h
-            )
-        })
-    },
+    // --- OBSTACLES & ENEMIES --- //
 
-    isCollisionPcl() {
-        return this.piccolos.some(pcl => {
-            return (
-            this.player.playerPos.x + this.player.playerSize.w >= pcl.pclPos.x &&
-            this.player.playerPos.y + this.player.playerSize.h >= pcl.pclPos.y &&
-            this.player.playerPos.x <= pcl.pclPos.x + pcl.pclSize.w &&
-            this.player.playerPos.y <= pcl.pclPos.y + pcl.pclSize.h
-            )
-        })
+    generateObstacle() {
+        this.randomOrigin()
+        if (this.frames % 25 === 0) {
+        this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
+        }
+        if (this.frames % 47 === 0) {
+        this.piccolos.push(new Piccolo(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
+        }
+        if (this.frames % 93 === 0) {
+        this.vegetas.push(new Vegeta(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
+        }
     },
-
-    isTarget() {
-        return this.player.bullets.some(bullet => {
-            return this.obstacles.some(obs => {
-                if (
-                    bullet.bulletPos.x + bullet.bulletSize.w >= obs.obsPos.x &&
-                    bullet.bulletPos.y + bullet.bulletSize.h >= obs.obsPos.y &&
-                    bullet.bulletPos.x <= obs.obsPos.x + obs.obsSize.w &&
-                    bullet.bulletPos.y <= obs.obsPos.y + obs.obsSize.h
-                ) {
-                    obs.obsRemove = true;
-                    bullet.bulletRemove = true;
-                    return true
-                }
-            })
-        })   
-    },
-
-    isTargetVgt() {
-        return this.player.bullets.some(bullet => {
-            return this.vegetas.some(vgt => {
-                if (
-                    bullet.bulletPos.x + bullet.bulletSize.w >= vgt.vgtPos.x &&
-                    bullet.bulletPos.y + bullet.bulletSize.h >= vgt.vgtPos.y &&
-                    bullet.bulletPos.x <= vgt.vgtPos.x + vgt.vgtSize.w &&
-                    bullet.bulletPos.y <= vgt.vgtPos.y + vgt.vgtSize.h
-                ) {
-                    vgt.obsRemove = true;
-                    bullet.bulletRemove = true;
-                    return true
-                }
-            })
-        })   
-    },
-
-    isTargetPcl() {
-        return this.player.bullets.some(bullet => {
-            return this.piccolos.some(pcl => {
-                if (
-                    bullet.bulletPos.x + bullet.bulletSize.w >= pcl.pclPos.x &&
-                    bullet.bulletPos.y + bullet.bulletSize.h >= pcl.pclPos.y &&
-                    bullet.bulletPos.x <= pcl.pclPos.x + pcl.pclSize.w &&
-                    bullet.bulletPos.y <= pcl.pclPos.y + pcl.pclSize.h
-                ) {
-                    pcl.obsRemove = true;
-                    bullet.bulletRemove = true;
-                    return true
-                }
-            })
-        })   
-    },
-
 
     destroyObs() {
+        this.player.bullets = this.player.bullets.filter(eachBullet => eachBullet.bulletRemove === false)
+        this.obstacles = this.obstacles.filter(eachObs => eachObs.obsRemove === false)
         this.piccolos = this.piccolos.filter(eachPcl => eachPcl.obsRemove === false)
         this.vegetas = this.vegetas.filter(eachVgt => eachVgt.obsRemove === false)
-        this.obstacles = this.obstacles.filter(eachObs => eachObs.obsRemove === false)
-        this.player.bullets = this.player.bullets.filter(eachBullet => eachBullet.bulletRemove === false)
+    },
+
+    // Player - Enemies collisions
+
+    isCollision() {
+        this.obstacles.forEach(obs => {
+            if (this.player.playerPos.x + this.player.playerSize.w >= obs.obsPos.x &&
+                this.player.playerPos.y + this.player.playerSize.h >= obs.obsPos.y &&
+                this.player.playerPos.x <= obs.obsPos.x + obs.obsSize.w &&
+                this.player.playerPos.y <= obs.obsPos.y + obs.obsSize.h) {
+                    this.colSound.play()
+                    this.gameOver()
+            }
+        })
+        this.vegetas.forEach(vgt => {
+            if (this.player.playerPos.x + this.player.playerSize.w >= vgt.vgtPos.x &&
+                this.player.playerPos.y + this.player.playerSize.h >= vgt.vgtPos.y &&
+                this.player.playerPos.x <= vgt.vgtPos.x + vgt.vgtSize.w &&
+                this.player.playerPos.y <= vgt.vgtPos.y + vgt.vgtSize.h) {
+                    this.colSound.play()
+                    this.gameOver()
+            }
+        })
+        this.piccolos.forEach(pcl => {
+            if (this.player.playerPos.x + this.player.playerSize.w >= pcl.pclPos.x &&
+                this.player.playerPos.y + this.player.playerSize.h >= pcl.pclPos.y &&
+                this.player.playerPos.x <= pcl.pclPos.x + pcl.pclSize.w &&
+                this.player.playerPos.y <= pcl.pclPos.y + pcl.pclSize.h) {
+                    this.colSound.play()
+                    this.gameOver()
+            }
+        })
+    },
+
+    // Bullets - Enemies collisions
+
+    isTarget() {
+        this.player.bullets.forEach(bullet => {
+            this.obstacles.forEach(obs => {
+                if (bullet.bulletPos.x + bullet.bulletSize.w >= obs.obsPos.x &&
+                    bullet.bulletPos.y + bullet.bulletSize.h >= obs.obsPos.y &&
+                    bullet.bulletPos.x <= obs.obsPos.x + obs.obsSize.w &&
+                    bullet.bulletPos.y <= obs.obsPos.y + obs.obsSize.h) {
+                        obs.obsRemove = true;
+                        bullet.bulletRemove = true;
+                        this.counterScore++
+                }
+            })
+
+            this.vegetas.forEach(vgt => {
+                if (bullet.bulletPos.x + bullet.bulletSize.w >= vgt.vgtPos.x &&
+                    bullet.bulletPos.y + bullet.bulletSize.h >= vgt.vgtPos.y &&
+                    bullet.bulletPos.x <= vgt.vgtPos.x + vgt.vgtSize.w &&
+                    bullet.bulletPos.y <= vgt.vgtPos.y + vgt.vgtSize.h) {
+                        vgt.obsRemove = true;
+                        bullet.bulletRemove = true;
+                        this.counterScore += 3
+                }
+            })
+
+            this.piccolos.forEach(pcl => {
+                if (bullet.bulletPos.x + bullet.bulletSize.w >= pcl.pclPos.x &&
+                    bullet.bulletPos.y + bullet.bulletSize.h >= pcl.pclPos.y &&
+                    bullet.bulletPos.x <= pcl.pclPos.x + pcl.pclSize.w &&
+                    bullet.bulletPos.y <= pcl.pclPos.y + pcl.pclSize.h) {
+                        pcl.obsRemove = true;
+                        bullet.bulletRemove = true;
+                        this.counterScore += 2
+                }
+            })
+
+            this.targetSound.play()
+            this.destroyObs()
+        })
+    },
+
+
+    // --- EXTRAS --- //
+
+    generateExtra() {
+        if (this.frames % 700 === 0) {
+        this.extras.push(new BlueBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
+        }
+        if (this.frames % 600 === 0) {
+        this.extras.push(new GreenBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
+        }
+        if (this.frames % 500 === 0) {
+        this.extras.push(new RedBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
+        }
+        if (this.frames % 400 === 0) {
+        this.extras.push(new YellowBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
+        }
     },
 
     clearExtras() {
         this.extras = this.extras.filter(eachBob => (eachBob.bobPos.x >= 0 && eachBob.bobPos.x <= this.canvasSize.w))
     },
+
+
+    // --- END GAME --- //
 
     gameOver() {
         this.bgSound.stop()
@@ -289,16 +286,6 @@ const gameApp = {
         this.drawEndMessage()
         const reload = document.querySelector("#restart-button")
         reload.style.display = "block"
-    },
-
-    drawScore() {
-        this.ctx.fillStyle = "#2ccaed"
-        this.ctx.fillRect(20, 25, 175, 40)
-        this.ctx.fillStyle = "white"
-        this.ctx.textAlign = "start"
-        this.ctx.textBaseline = "middle"
-        this.ctx.font = 'bold 16px Courier New'
-        this.ctx.fillText("YOUR SCORE: " + this.counterScore, 40, 45)
     },
 
     drawEndMessage() {

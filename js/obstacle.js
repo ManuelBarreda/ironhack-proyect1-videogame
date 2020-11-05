@@ -1,29 +1,29 @@
+
+    //  OBSTACLE - BALL //
 class Obstacle {
     constructor(ctx, canvasWidth, canvasHeight, positionX, positionY, direction, obsRemove, gameSpeed) {
         this.ctx = ctx
-        this.obsSize = {
-            w: 50,
-            h: 50
-        }
         this.canvasSize = {
             w: canvasWidth,
             h: canvasHeight
+        }
+        this.obsSize = {
+            w: 50,
+            h: 50
         }
         this.obsPos = {
             x: positionX-this.obsSize.w/2,
             y: positionY-this.obsSize.h/2
         }
-            
         this.obsVel = {
-            x: 4+gameSpeed,
-            y: 4+gameSpeed
+            x: 2+gameSpeed,
+            y: 2+gameSpeed
         }
-
         this.image = new Image();
         this.image.src = "./img/vegeta-shot-ball.png"
         this.origin = direction;
-        this.obsRemove = obsRemove;
         this.gameSpeed = gameSpeed;
+        this.obsRemove = obsRemove;
 
     }
 
@@ -50,36 +50,38 @@ class Obstacle {
     }
 }
 
+
+    //  ENEMY - VEGETA //
 class Vegeta {
     constructor(ctx, canvasWidth, canvasHeight, positionX, positionY, direction, obsRemove, gameSpeed) {
         this.ctx = ctx
-        this.vgtSize = {
-            w: 120,
-            h: 120
-        }
         this.canvasSize = {
             w: canvasWidth,
             h: canvasHeight
+        }
+        this.vgtSize = {
+            w: 120,
+            h: 120
         }
         this.vgtPos = {
             x: positionX-this.vgtSize.w/2,
             y: positionY-this.vgtSize.h/2
         }
-            
         this.vgtVel = {
-            x: 8+gameSpeed,
-            y: 8+gameSpeed
+            x: 6+gameSpeed,
+            y: 6+gameSpeed
         }
 
+        // Image
         this.vegetaImage = new Image();
         this.vegetaImage.src = "./img/enemy-vegeta-sprite.png"
         this.vegetaImage.frames = 4;
         this.vegetaImage.framesIndex = 3;
-        this.origin = direction;
-        this.obsRemove = obsRemove;
-        this.gameSpeed = gameSpeed;
-        // this.vgtlives = 3;
 
+        // Movement
+        this.origin = direction;
+        this.gameSpeed = gameSpeed;
+        this.obsRemove = obsRemove;
     }
 
     drawVgt() {
@@ -94,7 +96,6 @@ class Vegeta {
             this.vgtSize.w,
             this.vgtSize.h);
         this.moveVgt()
-
     }
 
     moveVgt() {
@@ -132,36 +133,38 @@ class Vegeta {
     }
 }
 
+
+    //  ENEMY - PICCOLO //
 class Piccolo {
     constructor(ctx, canvasWidth, canvasHeight, positionX, positionY, direction, obsRemove, gameSpeed) {
         this.ctx = ctx
-        this.pclSize = {
-            w: 150,
-            h: 150
-        }
         this.canvasSize = {
             w: canvasWidth,
             h: canvasHeight
+        }
+        this.pclSize = {
+            w: 150,
+            h: 150
         }
         this.pclPos = {
             x: positionX-this.pclSize.w/2,
             y: positionY-this.pclSize.h/2
         }
-            
         this.pclVel = {
-            x: 6+gameSpeed,
-            y: 6+gameSpeed
+            x: 4+gameSpeed,
+            y: 4+gameSpeed
         }
 
+        // Image
         this.piccoloImage = new Image();
         this.piccoloImage.src = "./img/enemy-piccolo-sprite.png"
         this.piccoloImage.frames = 4;
         this.piccoloImage.framesIndex = 1;
-        this.origin = direction;
-        this.obsRemove = obsRemove;
-        this.gameSpeed = gameSpeed;
-        //this.pcllives = 2;
 
+        // Movement
+        this.origin = direction;
+        this.gameSpeed = gameSpeed;
+        this.obsRemove = obsRemove;
     }
 
     drawPcl() {
