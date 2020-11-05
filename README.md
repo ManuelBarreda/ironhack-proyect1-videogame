@@ -1,5 +1,7 @@
 # ironhack-proyect1-videogame
 
+![DragonBallFuegote-logo.png](http://i.imgur.com/DragonBallFuegote-logo.png)
+
 DRAGON BALL FUEGOTE
 
 Authors: Patricia Muñoz de Dios & Manuel de la Barreda.
