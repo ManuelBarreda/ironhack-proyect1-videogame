@@ -1,5 +1,5 @@
 const gameApp = {
-    name: 'Game app',
+    name: 'Dragon Ball Fuegote',
     description: 'Game app with Canvas',
     version: '1.0.0',
     license: undefined,
