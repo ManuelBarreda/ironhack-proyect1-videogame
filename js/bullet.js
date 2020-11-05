@@ -1,10 +1,6 @@
 class Bullet {
     constructor(ctx, playerPosX, playerPosY, playerWidth, playerHeight, shootDir, bulletRemove, gameSpeed) {
         this.ctx = ctx
-        this.bulletPos = {
-            x: playerPosX + (playerWidth / 2),
-            y: playerPosY + (playerHeight / 2)
-        }
         this.playerPos = {
             x: playerPosX,
             y: playerPosY
@@ -13,15 +9,18 @@ class Bullet {
             w: playerWidth,
             h: playerHeight
         }
-        this.bulletVel = {
-            x: 7+gameSpeed,
-            y: 7+gameSpeed
+        this.bulletPos = {
+            x: playerPosX + (playerWidth / 2),
+            y: playerPosY + (playerHeight / 2)
         }
         this.bulletSize = {
             w: 30,
             h: 30
         }
-        this.radius = 5;
+        this.bulletVel = {
+            x: 7+gameSpeed,
+            y: 7+gameSpeed
+        }
         this.shootDir = shootDir
         this.image = new Image();
         this.image.src = "./img/goku-shot-ball.png"
@@ -29,7 +28,6 @@ class Bullet {
     }
 
     drawBullet() {
-
         this.ctx.drawImage(this.image, (this.bulletPos.x - this.bulletSize.w / 2), (this.bulletPos.y - this.bulletSize.h / 2), this.bulletSize.w, this.bulletSize.h);
         this.moveBullet()
     }
