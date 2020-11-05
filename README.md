@@ -9,18 +9,18 @@
 
 <h2>Specials thanks to:</h2>
 <ul>
-  <li>- Teacher: Germán Álvarez</li>
-  <li>- Teacher assistant: Enrique Montaño</li>
-  <li>- Colleagues: Gonzalo Argüelles & Hector Carramiñana</li>
+  <li> Teacher: Germán Álvarez</li>
+  <li> Teacher assistant: Enrique Montaño</li>
+  <li> Colleagues: Gonzalo Argüelles & Hector Carramiñana</li>
  </ul>
   
 <h2>Technologies used:</h2>
 <ul>
-  <li>- HTML5</li>
-  <li>- CSS3</li>
-  <li><ul>- Javascript (ES6):
-    <li>+ DOM</li>
-    <li>+ CANVAS</li>
+  <li> HTML5</li>
+  <li> CSS3</li>
+  <li><ul> Javascript (ES6):
+    <li> DOM</li>
+    <li> CANVAS</li>
   </ul>
   </li>
  </ul>
@@ -29,20 +29,11 @@
 
 <h2>How to play:</h2>
 <ul>
-  <li>- Use W to aim up</li>
-  <li>- Use S to aim down</li>
-  <li>- Use A to aim left</li>
-  <li>- Use D to aim rigth</li>
-  <li>- Use SPACE to shoot</li>
+  <li> Use W to aim up</li>
+  <li> Use S to aim down</li>
+  <li> Use A to aim left</li>
+  <li> Use D to aim rigth</li>
+  <li> Use SPACE to shoot</li>
  </ul>
   
   <h2>Advice:</h2> We recommend to lower your computer volume...
-  
-  
-  <ul>
-                        <li>1. PatriMDM: <span>532198</span></li>
-                        <li>2. ManuDLB: <span>452198</span></li>
-                        <li>3. QuiqueM: <span>365394</span></li>
-                        <li>4. Popino: <span>198387</span></li>
-                        <li>5. Vegetta777: <span>56831</span></li>
-                    </ul>
