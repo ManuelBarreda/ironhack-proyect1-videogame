@@ -23,6 +23,8 @@ const gameApp = {
     background: undefined,
     player: undefined,
     obstacles: [],
+    vegetas: [],
+    piccolos: [],
     counterScore: 0,
     position: {},
     obsRemove: false,
@@ -55,13 +57,26 @@ const gameApp = {
 
             this.frames > 5000 ? this.frames = 0 : this.frames++
 
-            if (this.isCollision()) {
+            if (this.isCollision() || this.isCollisionVgt()) {
                 this.colSound.play()
                 this.gameOver()
             }
 
             if (this.isTarget()) {
                 this.targetSound.play()
+                this.counterScore++
+                this.destroyObs()
+            }
+
+            if (this.isTargetVgt()) { //if dentro de if, primer if this.vegetalives --, segundo if destroy obs
+                this.targetSound.play()
+                this.counterScore += 3
+                this.destroyObs()
+            }
+
+            if (this.isTargetPcl()) {
+                this.targetSound.play()
+                this.counterScore += 2
                 this.destroyObs()
             }
             
@@ -82,6 +97,8 @@ const gameApp = {
         this.player = new Player(this.ctx, this.canvasSize.w, this.canvasSize.h, this.keys, this.score, this.gameSpeed)
         this.player.bullets = []
         this.obstacles = []
+        this.vegetas = []
+        this.piccolos = []
         this.counterScore = 0
 
     },
@@ -90,6 +107,8 @@ const gameApp = {
         this.background.drawBg()
         this.player.drawPlayer()
         this.obstacles.forEach(obs => obs.drawObs())
+        this.vegetas.forEach(vgt => vgt.drawVgt())
+        this.piccolos.forEach(pcl => pcl.drawPcl())
     },
 
     clear() {
@@ -100,6 +119,12 @@ const gameApp = {
         this.randomOrigin()
         if (this.frames % 25 === 0) {
         this.obstacles.push(new Obstacle(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
+        }
+        if (this.frames % 93 === 0) {
+        this.vegetas.push(new Vegeta(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
+        }
+        if (this.frames % 47 === 0) {
+        this.piccolos.push(new Piccolo(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
         }
     },
 
@@ -149,6 +174,28 @@ const gameApp = {
         })
     },
 
+    isCollisionVgt() {
+        return this.vegetas.some(vgt => {
+            return (
+            this.player.playerPos.x + this.player.playerSize.w >= vgt.vgtPos.x &&
+            this.player.playerPos.y + this.player.playerSize.h >= vgt.vgtPos.y &&
+            this.player.playerPos.x <= vgt.vgtPos.x + vgt.vgtSize.w &&
+            this.player.playerPos.y <= vgt.vgtPos.y + vgt.vgtSize.h
+            )
+        })
+    },
+
+    isCollisionPcl() {
+        return this.piccolos.some(pcl => {
+            return (
+            this.player.playerPos.x + this.player.playerSize.w >= pcl.pclPos.x &&
+            this.player.playerPos.y + this.player.playerSize.h >= pcl.pclPos.y &&
+            this.player.playerPos.x <= pcl.pclPos.x + pcl.pclSize.w &&
+            this.player.playerPos.y <= pcl.pclPos.y + pcl.pclSize.h
+            )
+        })
+    },
+
     isTarget() {
         return this.player.bullets.some(bullet => {
             return this.obstacles.some(obs => {
@@ -166,10 +213,46 @@ const gameApp = {
         })   
     },
 
+    isTargetVgt() {
+        return this.player.bullets.some(bullet => {
+            return this.vegetas.some(vgt => {
+                if (
+                    bullet.bulletPos.x + bullet.bulletSize.w >= vgt.vgtPos.x &&
+                    bullet.bulletPos.y + bullet.bulletSize.h >= vgt.vgtPos.y &&
+                    bullet.bulletPos.x <= vgt.vgtPos.x + vgt.vgtSize.w &&
+                    bullet.bulletPos.y <= vgt.vgtPos.y + vgt.vgtSize.h
+                ) {
+                    vgt.obsRemove = true;
+                    bullet.bulletRemove = true;
+                    return true
+                }
+            })
+        })   
+    },
+
+    isTargetPcl() {
+        return this.player.bullets.some(bullet => {
+            return this.piccolos.some(pcl => {
+                if (
+                    bullet.bulletPos.x + bullet.bulletSize.w >= pcl.pclPos.x &&
+                    bullet.bulletPos.y + bullet.bulletSize.h >= pcl.pclPos.y &&
+                    bullet.bulletPos.x <= pcl.pclPos.x + pcl.pclSize.w &&
+                    bullet.bulletPos.y <= pcl.pclPos.y + pcl.pclSize.h
+                ) {
+                    pcl.obsRemove = true;
+                    bullet.bulletRemove = true;
+                    return true
+                }
+            })
+        })   
+    },
+
+
     destroyObs() {
+        this.piccolos = this.piccolos.filter(eachPcl => eachPcl.obsRemove === false)
+        this.vegetas = this.vegetas.filter(eachVgt => eachVgt.obsRemove === false)
         this.obstacles = this.obstacles.filter(eachObs => eachObs.obsRemove === false)
         this.player.bullets = this.player.bullets.filter(eachBullet => eachBullet.bulletRemove === false)
-        this.counterScore++;
     },
 
     gameOver() {
