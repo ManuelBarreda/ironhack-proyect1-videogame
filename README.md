@@ -1,6 +1,6 @@
 # ironhack-proyect1-videogame
 
-![DragonBallFuegote-logo.png](http://i.imgur.com/DragonBallFuegote-logo.png)
+<img src="./img/DragonBallFuegote-logo.png" alt="Dragon Ball Fuegote">
 
 DRAGON BALL FUEGOTE
 
