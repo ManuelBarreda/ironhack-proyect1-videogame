@@ -18,12 +18,7 @@
 <ul>
   <li> HTML5</li>
   <li> CSS3</li>
-  <li>
-    <ul>Javascript (ES6):
-      <li> DOM</li>
-      <li> CANVAS</li>
-    </ul>
-  </li>
+  <li> Javascript (ES6): DOM & CANVAS</li>
 </ul>
 
 <h2>Description:</h2> Its the first basic game we do. You have to shoot the different objects to avoid been collisionated.
