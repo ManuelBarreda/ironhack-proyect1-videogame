@@ -2,29 +2,32 @@
 
 <img src="./img/DragonBallFuegote-logo.png" alt="Dragon Ball Fuegote">
 
-DRAGON BALL FUEGOTE
 
-Authors: Patricia Muñoz de Dios & Manuel de la Barreda.
 
-Specials thanks to:
+
+<h1>DRAGON BALL FUEGOTE</h1>
+
+<h2>Authors:</h2> Patricia Muñoz de Dios & Manuel de la Barreda.
+
+<h2>Specials thanks to:</h2>
   - Teacher: Germán Álvarez
   - Teacher assistant: Enrique Montaño
   - Colleagues: Gonzalo Argüelles & Hector Carramiñana
   
-Technologies used:
+<h2>Technologies used:</h2>
   - HTML5
   - CSS3
   - Javascript (ES6):
     + DOM
     + CANVAS
 
-Description: Its the first basic game we do. You have to shoot the different objects to avoid been collisionated.
+<h2>Description:</h2> Its the first basic game we do. You have to shoot the different objects to avoid been collisionated.
 
-How to play:
+<h2>How to play:</h2>
   - Use W to aim up
   - Use S to aim down
   - Use A to aim left
   - Use D to aim rigth
   - Use SPACE to shoot
   
-  Advice: We recommend to lower your computer volume...
+  <h2>Advice:</h2> We recommend to lower your computer volume...
