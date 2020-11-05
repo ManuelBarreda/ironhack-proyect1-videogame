@@ -25,9 +25,11 @@ const gameApp = {
     obstacles: [],
     vegetas: [],
     piccolos: [],
+    extras: [],
     counterScore: 0,
     position: {},
     obsRemove: false,
+    bobRemove: false,
     gameSpeed: 0,
 
     init(id) {
@@ -80,6 +82,9 @@ const gameApp = {
                 this.destroyObs()
             }
             
+            this.generateExtra()
+            this.clearExtras()
+
             this.drawScore()
 
         }, 1000 / this.FPS)
@@ -99,12 +104,14 @@ const gameApp = {
         this.obstacles = []
         this.vegetas = []
         this.piccolos = []
+        this.extras = []
         this.counterScore = 0
 
     },
 
     drawAll() {
         this.background.drawBg()
+        this.extras.forEach(bob => bob.drawBob(this.frames))
         this.player.drawPlayer()
         this.obstacles.forEach(obs => obs.drawObs())
         this.vegetas.forEach(vgt => vgt.drawVgt())
@@ -125,6 +132,21 @@ const gameApp = {
         }
         if (this.frames % 47 === 0) {
         this.piccolos.push(new Piccolo(this.ctx, this.canvasSize.w, this.canvasSize.h, this.position.x, this.position.y, this.position.dir, this.obsRemove, this.gameSpeed))
+        }
+    },
+
+    generateExtra() {
+        if (this.frames % 700 === 0) {
+        this.extras.push(new BlueBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
+        }
+        if (this.frames % 600 === 0) {
+        this.extras.push(new GreenBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
+        }
+        if (this.frames % 500 === 0) {
+        this.extras.push(new RedBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
+        }
+        if (this.frames % 400 === 0) {
+        this.extras.push(new YellowBob(this.ctx, this.canvasSize.w, this.canvasSize.h))
         }
     },
 
@@ -253,6 +275,10 @@ const gameApp = {
         this.vegetas = this.vegetas.filter(eachVgt => eachVgt.obsRemove === false)
         this.obstacles = this.obstacles.filter(eachObs => eachObs.obsRemove === false)
         this.player.bullets = this.player.bullets.filter(eachBullet => eachBullet.bulletRemove === false)
+    },
+
+    clearExtras() {
+        this.extras = this.extras.filter(eachBob => (eachBob.bobPos.x >= 0 && eachBob.bobPos.x <= this.canvasSize.w))
     },
 
     gameOver() {
