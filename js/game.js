@@ -91,6 +91,7 @@ const gameApp = {
         this.vegetas = []
         this.piccolos = []
         this.counterScore = 0
+        this.gameSpeed = 0
     },
 
     drawAll() {
